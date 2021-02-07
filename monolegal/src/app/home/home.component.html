@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="row">
+        <div class="col" *ngIf="hasError">
+            <div class="row">
+                <p>Ha Ocurrido un error al: {{error}}</p>
+            </div>
+        </div>
+        <div class="col" *ngIf="loading">
+            <label for="cargando">Cargando...</label>
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <input [(ngModel)]="name" type="text" placeholder="Ingrese su nombre">
+            <select [(ngModel)]="state" class="form-select" aria-label="Default select example">
+            <option *ngFor="let estado of listaEstados; index as j;" [ngValue]="estado">{{estado}}</option>
+            </select>
+            <button (click)="Agregar()">Agregar</button>
+        </div>
+        <div class="col" *ngIf="!loading">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col" *ngFor="let user of encabezados; index as i;">{{user}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let clientes of listaClientes; index as i;">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{clientes.cliente}}</td>
+                    <td>
+                        <select [(ngModel)]="clientes.estado" (change)="onStateChange(i)"  class="form-select" aria-label="Default select example">
+                            <option *ngFor="let estado of listaEstados; index as j;" [selected]="clientes.estado==estado" [ngValue]="estado">{{estado}}</option>
+                          </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
