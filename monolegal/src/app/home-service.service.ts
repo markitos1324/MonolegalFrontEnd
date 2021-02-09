@@ -13,13 +13,43 @@ export class HomeServiceService {
 
   public getClientes(): Promise<any> {
     return new Promise((resolve, reject) => {
-      const url = `${pyServer}/getClientes`;
+      const url = `${pyServer}/getFacturas`;
       const sub: Subscription = this.http
         .get(url)
         .subscribe(
           (data) => {
+            sub.unsubscribe();
+            resolve(data);
+          },
+          (error) => {
+            sub.unsubscribe();
+            console.log(error);
+            reject(error);
+          }
+        );
+    });
+  }
+ 
+  public addClientes(factura:
+    { codigoFactura: string,
+      cliente: string,
+      ciudad: string,
+      nit: number,
+      totalFactura: number,
+      subTotal: number,
+      iva: number,
+      retencion: number,
+      fechaDeCreacion: Date,
+      estado: string,
+      pagada:boolean,
+      fechaDePago: Date}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const url = `${pyServer}/AddFactura`;
+      const sub: Subscription = this.http
+        .post(url, factura)
+        .subscribe(
+          (data) => {
             console.log(data);
-            
             sub.unsubscribe();
             resolve(data);
           },
@@ -33,15 +63,14 @@ export class HomeServiceService {
     });
   }
 
-  public addClientes(cliente:{ cliente: string, estado: string}): Promise<any> {
+  public updateClientes(cod:string, state: {estado: string}): Promise<any> {
     return new Promise((resolve, reject) => {
-      const url = `${pyServer}/Clientes`;
+      const url = `${pyServer}/updateFacturas/`+cod;
+      console.log(url);
       const sub: Subscription = this.http
-        .post(url, cliente)
+        .put(url, state)
         .subscribe(
           (data) => {
-            console.log(data);
-            
             sub.unsubscribe();
             resolve(data);
           },

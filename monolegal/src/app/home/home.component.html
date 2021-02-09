@@ -1,43 +1,105 @@
 <div class="container">
-    <div class="row">
-        <div class="col" *ngIf="hasError">
-            <div class="row">
-                <p>Ha Ocurrido un error al: {{error}}</p>
-            </div>
-        </div>
-        <div class="col" *ngIf="loading">
-            <label for="cargando">Cargando...</label>
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden"></span>
-            </div>
-        </div>
-        <div class="col-12">
-            <input [(ngModel)]="name" type="text" placeholder="Ingrese su nombre">
-            <select [(ngModel)]="state" class="form-select" aria-label="Default select example">
-            <option *ngFor="let estado of listaEstados; index as j;" [ngValue]="estado">{{estado}}</option>
-            </select>
-            <button (click)="Agregar()">Agregar</button>
-        </div>
-        <div class="col" *ngIf="!loading">
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col" *ngFor="let user of encabezados; index as i;">{{user}}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let clientes of listaClientes; index as i;">
-                    <th scope="row">{{i+1}}</th>
-                    <td>{{clientes.cliente}}</td>
-                    <td>
-                        <select [(ngModel)]="clientes.estado" (change)="onStateChange(i)"  class="form-select" aria-label="Default select example">
-                            <option *ngFor="let estado of listaEstados; index as j;" [selected]="clientes.estado==estado" [ngValue]="estado">{{estado}}</option>
-                          </select>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-        </div>
+  <h1>Prueba nivel Aprendiz – Programación Monolegal</h1>
+  <div class="row">
+    <div class="col" *ngIf="hasError">
+      <div class="row">
+        <p>Ha Ocurrido un error al: {{error}}</p>
+      </div>
     </div>
+    <div class="col" *ngIf="loading">
+      <label for="cargando">Cargando...</label>
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden"></span>
+      </div>
+    </div>
+    <div class="col-12">
+      <h3>Crear facturas</h3>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Codigo Factura</span>
+        <input [(ngModel)]="codigoFactura" type="text" class="form-control"
+          placeholder="Ingrese el codigo de la factura" aria-label="Ingrese el codigo de la factura"
+          aria-describedby="basic-addon1">
+        <span class="input-group-text" id="basic-addon1">NIT</span>
+        <input [(ngModel)]="nit" type="text" class="form-control" placeholder="Ingrese el NIT"
+          aria-label="Ingrese el NIT" aria-describedby="basic-addon1">
+        <span class="input-group-text" id="basic-addon1">Ciudad</span>
+        <input [(ngModel)]="ciudad" type="text" class="form-control" placeholder="Ingrese la ciudad"
+          aria-label="Ingrese la ciudad" aria-describedby="basic-addon1">
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Nombre Cliente</span>
+        <input [(ngModel)]="cliente" type="text" class="form-control" placeholder="Ingrese el nombre del cliente"
+          aria-label="Ingrese el nombre del cliente" aria-describedby="basic-addon1">
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Valor a pagar</span>
+        <input [(ngModel)]="subtotal" type="number" class="form-control" placeholder="Ingrese Valor a pagar"
+          aria-label="Ingrese Valor a pagar" aria-describedby="basic-addon1">
+        <span class="input-group-text" id="basic-addon1">Iva</span>
+        <input [(ngModel)]="iva" type="number" class="form-control" placeholder="Valor del IVA"
+          aria-label="Valor del IVA" aria-describedby="basic-addon1">
+        <span class="input-group-text" id="basic-addon1">Retencion</span>
+        <input [(ngModel)]="retencion" type="number" class="form-control" placeholder="Valor de retencion"
+          aria-label="Valor de retencion" aria-describedby="basic-addon1">
+        <span class="input-group-text" id="basic-addon1">Total a pagar</span>
+        <input [(ngModel)]="totalFactura" type="number" class="form-control" placeholder="Ingrese Total de Factura"
+          aria-label="Ingrese Total de Factura" aria-describedby="basic-addon1">
+      </div>
+      <div class="input-group mb-3">
+        <label class="input-group-text" for="inputGroupSelect01">Estado</label>
+        <select [(ngModel)]="estado" class="form-select" aria-label="Default select example">
+          <option *ngFor="let estado of listaEstados; index as j;" [ngValue]="estado">{{estado}}</option>
+        </select>
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Fecha de creacion</span>
+        <input [(ngModel)]="fechaDeCreacion" type="date" class="form-control"
+          placeholder="Ingrese fecha de creacion de la factura" aria-label="Ingrese fecha de creacion de la factura"
+          aria-describedby="basic-addon1">
+        <div class="form-check form-check-inline">
+          <input [(ngModel)]="pagada" [(ngModel)]="isSelected" class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+          <label class="form-check-label" for="inlineCheckbox2">Factura pagada</label>
+        </div>
+        <span class="input-group-text" id="basic-addon1">Fecha de Pago</span>
+        <input [(ngModel)]="fechaDePago" [disabled]="!isSelected" type="date" class="form-control" placeholder="Ingrese fecha de pago de la factura" aria-label="Ingrese fecha de pago de la factura" aria-describedby="basic-addon1">
+      </div>
+      <div class="d-grid gap-2">
+        <button class="btn btn-primary" type="button" (click)="Agregar()">Agregar</button>
+      </div>
+    </div>
+    <div class="col" *ngIf="!loading">
+      <h3>Tabla Facturas</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col" *ngFor="let user of encabezados; index as i;">{{user}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let factura of listaClientes; index as i;">
+            <th scope="row">{{i+1}}</th>
+            <td>{{factura.codigoFactura}}</td>
+            <td>{{factura.cliente}}</td>
+            <td>{{factura.ciudad}}</td>
+            <td>{{factura.nit}}</td>
+            <td>${{factura.totalFactura}}</td>
+            <td>${{factura.subTotal}}</td>
+            <td>${{factura.iva}}</td>
+            <td>${{factura.retencion}}</td>
+            <td>{{factura.fechaDeCreacion}}</td>
+            <td>
+              <select [(ngModel)]="factura.estado" (change)="onStateChange(factura.codigoFactura, factura.estado)"
+                class="form-select" aria-label="Default select example">
+                <option *ngFor="let estado of listaEstados; index as j;" [selected]="factura.estado==estado"
+                  [ngValue]="estado">{{estado}}</option>
+              </select>
+            </td>
+            <td>{{factura.pagada ? "Si" : "No"}}</td>
+            <td>{{factura.fechaDePago}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
