@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeServiceService } from '../home-service.service';
-import swal from 'sweetalert';
+import swa from 'sweetalert';
 
 @Component({
   selector: 'app-home',
@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit {
 
   public onStateChange(cod:string, state:string){
     this.homeServiceService.updateClientes(cod, {estado: state});
-    swal("Estado Actualizado", "You clicked the button!", "success");
+    swa("Estado Actualizado", "You clicked the button!", "success");
   }
 
   private resetDatas(){
